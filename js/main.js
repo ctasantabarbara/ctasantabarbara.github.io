@@ -1,8 +1,8 @@
 var hoy = new Date();
 	// hacer global la peticion ajax en variable myData
 	// myData es un array de objetos.
-	var url = 'https://josemamira.github.io/post/posts.json';
-	//var url = 'https://localhost/josemamira/post/posts.json';
+	var url = 'https://ctasantabarbara.github.io/post/posts.json';
+	
 
     var myData = getSomething();
 
@@ -24,7 +24,7 @@ var hoy = new Date();
     console.log(myData);
     
     // load links.json
-	var url2 = 'https://josemamira.github.io/post/links.json';
+	var url2 = 'https://ctasantabarbara.github.io/post/links.json';
     var myLinks = getSomething2();
 
     function getSomething2(){
@@ -43,7 +43,7 @@ var hoy = new Date();
     //console.log(myLinks);
     
     // load links.json
-	var url3 = 'https://josemamira.github.io/post/events.json';
+	var url3 = 'https://ctasantabarbara.github.io/post/events.json';
     var myEvents = getSomething3();
 
     function getSomething3(){
