@@ -196,7 +196,7 @@ function listadoBoton(inicio,fin) {
 	
 	function loadPost(id) {	
 		//id = 1;	
-		var url = 'https://josemamira.github.io/post/posts.json';
+		var url = 'https://ctasantabarbara.github.io/post/posts.json';
 		$( "#divUnPost" ).empty();
 		$.getJSON(url, function(data) {
 			//console.log(data);
