@@ -76,7 +76,7 @@
 
 <script>
 $(document).ready(function(){
-	const authorArr = ["Jos&eacute; Manuel Mira", "Inmaculada Belmonte", "Paula Pira","Rubén Lira", "Sancho Panza","Alonso Quijano", "Javier Cercas"];
+   const authorArr = ["Jos&eacute; Manuel Mira", "Inmaculada Belmonte", "Paula Pira","Rubén Lira", "Sancho Panza","Alonso Quijano", "Javier Cercas"];
    var data = [
       { "id": "2", "nombre": "Jos&eacute; Manuel Mira" },
       { "id": "3", "nombre": "Inmaculada Belmonte" },
@@ -129,7 +129,7 @@ var CryptoJSAesJson = {
 // CALCULAR SHA1 PARA GITHUB. Hay que calcular el sha del fichero ya existente, no del modificado
 
 
-let urlsha = 'https://api.github.com/repos/josemamira/josemamira.github.io/contents/post/posts.json';
+let urlsha = 'https://api.github.com/repos/ctasantabarbara/ctasantabarbara.github.io/contents/post/posts.json';
 async function githubSha() {
             let response = await fetch(urlsha)
             let data = await response.json()
@@ -175,7 +175,7 @@ function getToken() {
 
 
 
-	var url = 'https://josemamira.github.io/post/posts.json';
+	var url = 'https://ctasantabarbara.github.io/post/posts.json';
 
     var posts = getSomething();
 
@@ -206,7 +206,7 @@ function hideDiv() {
 	//
 	document.getElementById("content").style.display = 'none'; 
 	document.getElementById("finishMsg").innerHTML = '<h3>Message</h3><p>Se paciente. El servidor de alojamiento (Github) tarda unos 5 minutos en subir/refrescar la noticia. Ahora te redireccionamos a nuestra web pincipal.</p></p>';
-	setTimeout("location.href = 'https://josemamira.github.io/';",5000);
+	setTimeout("location.href = 'https://ctasantabarbara.github.io/';",5000);
 }
 
 </script>
@@ -238,8 +238,8 @@ function hideDiv() {
 			  let miToken = document.getElementById("tokenValue").value;
 			  const octokit = new Octokit({ auth: miToken });
 			  const { data } = await octokit.repos.createOrUpdateFileContents({
-				  owner: "josemamira",
-				  repo: "josemamira.github.io",
+				  owner: "ctasantabarbara",
+				  repo: "ctasantabarbara.github.io",
 				  path: "post/posts.json",
 				  message: "Added new post programatically",
 				  branch: "master",
