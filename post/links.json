@@ -1,0 +1,34 @@
+{
+  "links": [
+    {
+      "id": 1,
+      "nombre": "Federación Valenciana de Tiro con Arco",
+      "web": "http://www.ftacv.org", 
+      "logo": "fvtacv.png"
+    },
+    {
+      "id": 2,
+      "nombre": "Real Federación Española de Tiro con Arco",
+      "web": "https://www.federarco.es/", 
+      "logo": "federarco.png"
+    },
+    {
+      "id": 3,
+      "nombre": "IANSEO: Seguimiento competiciones",
+      "web": "https://www.ianseo.net/", 
+      "logo": "ianseo.png"
+    },
+    {
+      "id": 4,
+      "nombre": "World Archery",
+      "web": "https://worldarchery.org/", 
+      "logo": "world-archery.png"
+    },
+    {
+      "id": 5,
+      "nombre": "World Archery. Canal de Youtube",
+      "web": "https://www.youtube.com/user/archerytv", 
+      "logo": "world-archery.png"
+    }        
+  ]
+}
