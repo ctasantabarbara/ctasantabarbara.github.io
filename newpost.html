@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>New post</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="css/w3.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+      
+    
+    <script type="text/javascript" src="js/crypto-js.min.js"></script>
+    <script src="js/jquery-3.6.0.min.js"></script>
+    <script src="js/trumbowyg/dist/trumbowyg.min.js"></script> 
+	<link rel="stylesheet" href="js/trumbowyg/dist/ui/trumbowyg.min.css">
+    
+  </head>
+  <body>
+<div class="w3-container w3-blue">
+  <h2 class="w3-center"><i class="fa fa-gear" aria-hidden="true"></i> Crear post y eventos </h2>
+</div>
+<div id="finishMsg"></div>
+<div id="content">
+	<div id="tokenMsg" class="w3-panel w3-pale-green w3-border">
+	  <h3>Mensaje</h3>
+	  <p>Haz click en el botón para acceder</p>
+	</div>
+	<p class="w3-center"><button id="getToken" onclick="getToken()" class="w3-button w3-teal w3-round-large">
+		<i class="fa fa-unlock-alt" aria-hidden="true"></i> Autentificar</button>
+	</p>
+
+
+
+	<div id="myForm" style="display:none" class="w3-container">
+		<p>
+		  <label for="id">Identificador (sólo lectura):</label><input class="w3-input w3-border w3-round" type="text" id="id" readonly placeholder="id"><br>
+		  <label for="autor">Autor del art&iacute;culo:</label>
+		  <select class="w3-select" name="autor" id="autor" >
+			  <option value="1" selected>An&oacute;nimo</option>
+		  </select><br>		  
+		  <label for="active">Activo:</label><input class="w3-check" id="active" name="active" type="checkbox" checked="checked"><br><br>
+		  <label for="titulo">Título:</label><input type="text"  class="w3-input w3-border w3-round" id="titulo" placeholder="Titulo articulo"><br>
+		  <label for="texto_corto">Texto corto:</label><textarea id="texto_corto">texto corto</textarea><br>
+		  <label for="texto_largo">Cuerpo del artículo:</label><textarea id="texto_largo">texto largo del articulo</textarea><br>
+		  <br>
+		  <label for="enlace_img">Enlace web de imagen:</label><input type="text" class="w3-input w3-border w3-round" id="enlace_img" 
+		 placeholder="Example: https://josemamira.github.io/img/avatar.jpg"><br>
+		  <label for="enlace_web">Enlace web:</label><input type="text" class="w3-input w3-border w3-round" id="enlace_web" placeholder="URL where this post is related, like http://... "><br>
+		 
+		  <label for="fecha_articulo">Fecha articulo:</label>
+		  <input type="date" id="fecha_articulo" name="fecha_articulo" readonly min="2022-06-01" max="2030-12-31"><br>
+		   
+	 
+		   <label for="fecha_publicacion">Fecha publicacion:</label>
+		  <input type="date" id="fecha_publicacion" name="fecha_publicacion"
+			 value="2022-06-01"
+			 min="2022-06-01" max="2030-12-31"><br>
+	 
+		  <label for="tags">Palabras clave:</label><input type="text" class="w3-input w3-border w3-round" id="tags" value="Sala, recurvo, compuesto" placeholder="Write tag words separed by comma"><br>
+		  <label for="tema">Tema:</label>
+		  <select name="tema" class="w3-select" id="tema">
+			<option value="1" selected>General</option>
+			<option value="2">Competiciones</option>
+			<option value="3">Formación</option>
+			<option value="4">Club</option>
+			<option value="5">Otros</option>
+			
+		  </select><br>
+		  <input type="hidden" id="shavalue"><br>
+		  <input type="hidden" id="tokenValue">
+		</p>
+	  <p class="w3-center"><button id="upload" class="w3-button w3-teal w3-round-large"><i class="fa fa-cloud-upload" aria-hidden="true"></i> Subir art&iacute;culo</button></p> 
+	</div>
+</div>
+
+
+<script>
+$(document).ready(function(){
+	const authorArr = ["Jos&eacute; Manuel Mira", "Inmaculada Belmonte", "Paula Pira","Rubén Lira", "Sancho Panza","Alonso Quijano", "Javier Cercas"];
+   var data = [
+      { "id": "2", "nombre": "Jos&eacute; Manuel Mira" },
+      { "id": "3", "nombre": "Inmaculada Belmonte" },
+      { "id": "4", "nombre": "Miguel Mart&iacute; " },
+      { "id": "5", "nombre": "Begoña Blanco" }
+
+   ];
+   for (var index = 0; index <= data.length; index++) {
+      $('#autor').append('<option value="' + data[index].id + '">' + data[index].nombre + '</option>');
+   }	
+
+});	// fin ready
+	
+// textarea
+$('#texto_corto').trumbowyg();	
+$('#texto_largo').trumbowyg();	
+	
+// tiempo
+// Fecha hoy
+const hoy = new Date();
+//Esta función de utilidad nos dará la fecha formateada
+const formatear = f =>{
+    const año = f.getFullYear();
+    const mes = ("0" + (f.getMonth()+1)).substr(-2);
+    const dia = ("0" + f.getDate()).substr(-2);
+    return `${año}-${mes}-${dia}`
+}
+//escribir dia actual en formulario
+document.querySelector("#fecha_articulo").value = formatear(hoy);
+document.querySelector("#fecha_publicacion").value = formatear(hoy)	
+	
+// https://stackoverflow.com/questions/24337317/encrypt-with-php-decrypt-with-javascript-cryptojs
+var CryptoJSAesJson = {
+    stringify: function (cipherParams) {
+        var j = {ct: cipherParams.ciphertext.toString(CryptoJS.enc.Base64)};
+        if (cipherParams.iv) j.iv = cipherParams.iv.toString();
+        if (cipherParams.salt) j.s = cipherParams.salt.toString();
+        return JSON.stringify(j);
+    },
+    parse: function (jsonStr) {
+        var j = JSON.parse(jsonStr);
+        var cipherParams = CryptoJS.lib.CipherParams.create({ciphertext: CryptoJS.enc.Base64.parse(j.ct)});
+        if (j.iv) cipherParams.iv = CryptoJS.enc.Hex.parse(j.iv)
+        if (j.s) cipherParams.salt = CryptoJS.enc.Hex.parse(j.s)
+        return cipherParams;
+    }
+}
+
+
+// CALCULAR SHA1 PARA GITHUB. Hay que calcular el sha del fichero ya existente, no del modificado
+
+
+let urlsha = 'https://api.github.com/repos/josemamira/josemamira.github.io/contents/post/posts.json';
+async function githubSha() {
+            let response = await fetch(urlsha)
+            let data = await response.json()
+            document.getElementById("shavalue").value = data.sha; 
+            return data.sha;
+    }
+
+githubSha();
+
+
+function getToken() {
+	let xhr = new XMLHttpRequest();
+	xhr.open('GET', 'https://www.sigua.ua.es/es/test/faketoken.php');
+	xhr.send();
+	xhr.onload = function() {
+		if (xhr.status != 200) { // analiza el estado HTTP de la respuesta
+			alert('Error ${xhr.status}: ${xhr.statusText}'); // ej. 404: No encontrado
+		} else { // muestra el resultado
+			var data = JSON.parse(xhr.response);
+			//console.log(data);
+			var encrypted =  JSON.stringify(data);
+		 
+			let text;
+			let key = prompt("Por favor introduzca la contraseña:", "password");
+			if (key == null || key == "") {
+				text = "User cancelled the prompt.";
+			} else {
+				try {
+					var decrypted = JSON.parse(CryptoJS.AES.decrypt(encrypted, key, {format: CryptoJSAesJson}).toString(CryptoJS.enc.Utf8));
+					document.getElementById("tokenMsg").innerHTML = '<h3>Mensaje</h3><p>Autentificación satisfactoria.</p><p><a class="w3-btn w3-green" href="newEvent.html" >nuevo evento</a></p>';
+					document.getElementById("tokenValue").value = decrypted;
+					const myForm = document.getElementById('myForm');
+					document.getElementById("getToken").style.display = 'none'; 
+					myForm.style.display = 'block'; 				
+				}
+				catch(err) {
+					document.getElementById("tokenMsg").innerHTML = '<h3>ERROR</h3><p>Contraseña incorrecta. Inténtelo de nuevo.<br>'+err.message+'</p>';					
+				}
+			}
+		};
+	}
+}
+
+
+
+	var url = 'https://josemamira.github.io/post/posts.json';
+
+    var posts = getSomething();
+
+    function getSomething(){
+        var result = null;
+        $.ajax({
+            async: false,
+            url: url,
+            data: {},
+            dataType: "json",
+            success: function(data){
+                result = data.posts;
+            }
+        });
+        return result;
+    }
+    
+    // Decomentar para test
+    //console.log(posts);
+    //console.log("nº posts: " + posts.length);
+    document.getElementById("id").value = posts.length;
+
+function utf8_to_b64( str ) {
+  return window.btoa(unescape(encodeURIComponent( str )));
+}
+
+function hideDiv() {
+	//
+	document.getElementById("content").style.display = 'none'; 
+	document.getElementById("finishMsg").innerHTML = '<h3>Message</h3><p>Se paciente. El servidor de alojamiento (Github) tarda unos 5 minutos en subir/refrescar la noticia. Ahora te redireccionamos a nuestra web pincipal.</p></p>';
+	setTimeout("location.href = 'https://josemamira.github.io/';",5000);
+}
+
+</script>
+
+<script type="module">
+	import { Octokit } from "https://cdn.skypack.dev/@octokit/rest";
+		
+	const main = async () => {
+			  //console.log(posts);		
+			  const numPost = Object.keys(posts).length;
+			  let unPost = {
+				  "id": numPost+1,
+				  "activo": true,
+				  "titulo": document.getElementById("titulo").value, 
+				  "texto_corto": document.getElementById("texto_corto").value,
+				  "texto_largo": document.getElementById("texto_largo").value,
+				  "autor": document.getElementById("autor").value,
+				  "enlace_img": document.getElementById("enlace_img").value,
+				  "enlace_web": document.getElementById("enlace_web").value,
+				  "fecha_articulo": document.getElementById("fecha_articulo").value,
+				  "fecha_publicacion": document.getElementById("fecha_publicacion").value,
+				  "tags": document.getElementById("tags").value,
+				  "tema": document.getElementById("tema").value
+				};
+			  posts.push(unPost);
+			  const postsJson={posts};
+			  //console.log(posts);		  
+			  const postsJsonB64= utf8_to_b64(JSON.stringify({posts}, null, 2));
+			  let miToken = document.getElementById("tokenValue").value;
+			  const octokit = new Octokit({ auth: miToken });
+			  const { data } = await octokit.repos.createOrUpdateFileContents({
+				  owner: "josemamira",
+				  repo: "josemamira.github.io",
+				  path: "post/posts.json",
+				  message: "Added new post programatically",
+				  branch: "master",
+				  content: postsJsonB64,
+				  sha: document.getElementById('shavalue').value,
+				  committer: {
+					name: "Jose Manuel Mira Martinez",
+					email: "josema.mira@gmail.com",
+				  },
+				  author: {
+					name: "Jose Manuel Mira Martinez",
+					email: "josema.mira@gmail.com",
+				  },
+			  });
+			  console.log(data);
+			  hideDiv();
+			 
+};
+
+document.getElementById("upload").onclick = function() {main()};		
+
+</script>
+
+  </body>
+</html>

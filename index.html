@@ -1,0 +1,634 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>Blog del Club de Tiro con Arco Santa Bárbara Alicante</title>
+<meta charset="UTF-8">
+<meta http-equiv="cache-control" content="no-cache, must-revalidate, post-check=0, pre-check=0" />
+<meta http-equiv="cache-control" content="max-age=0" />
+<meta http-equiv="expires" content="0" />
+<meta http-equiv="expires" content="Tue, 01 Jan 1980 1:00:00 GMT" />
+<meta http-equiv="pragma" content="no-cache" />
+<link rel="shortcut icon" href="favicon.png" type="image/png" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/svg+xml" href="img/logo/logo_santabarbara_v2.svg" sizes="any">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Raleway">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel='stylesheet' type='text/css' href='css/fullcalendar.css' />
+<script src="https://code.jquery.com/jquery-3.2.1.js"></script>
+<!--fullCalendar-->
+<script type='text/javascript' src='js/fullcalendar/moment.min.js'></script>
+<script type='text/javascript' src='js/fullcalendar/fullcalendar.min.js'></script>
+<script type='text/javascript' src='js/fullcalendar/locale/es.js'></script>
+<style>
+body,h1,h2,h3,h4,h5 {font-family: "Raleway", sans-serif}
+
+
+.mySlides {display:none;}
+.logo {
+    background: url('img/logo/logo_santabarbara_v2.svg') no-repeat;
+        background-size: auto;
+    background-size: 100% 100%;
+    height: 50px;
+    width: 50px;
+}
+.w3-theme-d2 {
+    color: #fff !important;
+    background-color: #3f51b5!important;
+}
+</style>
+</head>
+	
+	
+	
+<!-- Sidebar on click -->
+<nav class="w3-sidebar w3-bar-block w3-white w3-card w3-animate-left w3-xxlarge" style="display:none;z-index:2" id="mySidebar">
+  <a href="javascript:void(0)" onclick="w3_close()" class="w3-bar-item w3-button w3-display-topright w3-text-teal">Cerrar
+    <i class="fa fa-times"></i>
+  </a>
+
+    <a href="#nosotros" class="w3-bar-item w3-button">Nosotros</a>
+    <a href="#socios" class="w3-bar-item w3-button">Socios</a>
+    <a href="#cursos" class="w3-bar-item w3-button">Cursos</a>
+    <a href="#contacto" class="w3-bar-item w3-button">Contacto</a>
+    <a href="#divBlogUltimo" class="w3-bar-item w3-button">Noticias/Blog</a>
+    <!--<a href="#faq" class="w3-bar-item w3-button">FAQ</a>-->
+    <a href="#links" class="w3-bar-item w3-button">Enlaces</a>
+    <a href="#calendar" class="w3-bar-item w3-button">Calendario</a>
+    <a href="#instalaciones" class="w3-bar-item w3-button">Instalaciones</a>
+    <a href="#mapa" class="w3-bar-item w3-button">Mapa</a>
+</nav>
+
+<!-- Navbar -->
+<div class="w3-top">
+ <div class="w3-bar w3-theme-d2 w3-left-align">
+  <a class="w3-bar-item w3-button w3-hide-medium w3-hide-large w3-right w3-hover-white w3-theme-d2" href="javascript:void(0);" onclick="openNav()">
+	  <i class="fa fa-bars"></i></a>
+  <a href="#" class="w3-bar-item w3-button w3-light-blue">
+	  <img src="img/logo/diana.svg" alt="Home" width=20">
+  </a>
+	<!--  <i class="fa fa-solid fa-bullseye fa-2xl w3-margin-right"></i>  -->
+  <a href="#nosotros" class="w3-bar-item w3-button w3-hide-small w3-hover-white">El club</a>
+  <a href="#socios" class="w3-bar-item w3-button w3-hide-small w3-hover-white">Socios</a>
+  <a href="#cursos" class="w3-bar-item w3-button w3-hide-small w3-hover-white">Cursos</a>
+  <a href="#contacto" class="w3-bar-item w3-button w3-hide-small w3-hover-white"><i class="fa fa-phone" aria-hidden="true"></i> Contacto</a>
+    <div class="w3-dropdown-hover w3-hide-small">
+    <button class="w3-button" title="Notifications">Flechazos <i class="fa fa-caret-down"></i></button>
+    <div class="w3-dropdown-content w3-card-4 w3-bar-block">
+      <a href="#calendar" class="w3-bar-item w3-button"><i class="fa fa-calendar" aria-hidden="true"></i> Calendario</a>
+      <!--<a href="#" class="w3-bar-item w3-button">Plusmarcas</a>-->
+      <!--<a href="#faq" class="w3-bar-item w3-button"><i class="fa fa-question-circle"></i> FAQ</a>-->
+      <a href="#divBlogUltimo" class="w3-bar-item w3-button"><i class="fa fa-comment"></i> Noticia</a>
+      <a href="#links" class="w3-bar-item w3-button"><i class="fa fa-link"></i> Enlaces</a>
+      <a href="#instalaciones" class="w3-bar-item w3-button"><i class="fa fa-cog"></i> Instalaciones</a>
+      <a href="#mapa" class="w3-bar-item w3-button"><i class="fa fa-map-marker"></i> Mapa</a>
+    </div>
+  </div>
+  <!--<a href="#" class="w3-bar-item w3-button w3-hide-small w3-right w3-hover-teal" title="Search"><i class="fa fa-search"></i></a>-->
+ </div>
+
+  <!-- Navbar on small screens -->
+  <div id="navDemo" class="w3-bar-block w3-theme-d2 w3-hide w3-hide-large w3-hide-medium">
+    <a href="#nosotros" class="w3-bar-item w3-button">El club</a>
+    <a href="#socios" class="w3-bar-item w3-button">Socios</a>
+    <a href="#cursos" class="w3-bar-item w3-button">Cursos</a>
+    <a href="#contacto" class="w3-bar-item w3-button">Contacto</a>
+    <a href="#divBlogUltimo" class="w3-bar-item w3-button">Noticias/Blog</a>
+    <!--<a href="#faq" class="w3-bar-item w3-button">FAQ</a>-->
+    <a href="#links" class="w3-bar-item w3-button">Enlaces</a>
+    <a href="#calendar" class="w3-bar-item w3-button">Calendario</a>
+    <a href="#instalaciones" class="w3-bar-item w3-button">Instalaciones</a>
+    <a href="#mapa" class="w3-bar-item w3-button">Mapa</a>
+
+  </div>
+</div>
+
+<!-- carrusel -->
+<div class="w3-display-container w3-animate-opacity">
+  <img class="mySlides" src="img/intro/mundial.jpg" style="width:100%;min-height:350px;max-height:66%;">
+  <img class="mySlides" src="img/intro/castillo.jpg" style="width:100%;min-height:350px;max-height:66%;">
+  <img class="mySlides" src="img/intro/flechas.jpg" style="width:100%;min-height:350px;max-height:66%;">
+  <img class="mySlides" src="img/intro/ballesta.jpg" style="width:100%;min-height:350px;max-height:66%;">
+  <div class="w3-container w3-display-bottomleft w3-margin-bottom"><img width="200" src="img/logo/logo_santabarbara_v2.svg"></div>
+</div>
+<!-- fin carrusel -->
+	
+
+<!-- w3-content defines a container for fixed size centered content, 
+and is wrapped around the whole page content, except for the footer in this example -->
+<div class="w3-content" style="max-width:1400px">
+
+<!-- Header -->
+<header class="w3-container w3-center w3-padding-32"> 
+  <h1><b>Santa Bárbara <span class="w3-tag">Club de Tiro con Arc<i class="fa fa-solid fa-bullseye"></i></span</b></h1>
+  <p>
+	  <span class="w3-tag w3-blue">Profesionalidad</span>
+	  <span class="w3-tag w3-red">Pasión</span>
+	  <span class="w3-tag w3-yellow">Dedicación</span>
+  </p>
+</header>
+
+
+
+
+<!-- Grid -->
+<div class="w3-row">
+
+<!-- Blog entries -->
+<div class="w3-col l8 s12">
+	
+	  <!-- introduccion -->
+	  <div id="nosotros" class="w3-card-4 w3-margin w3-white">
+		<img src="img/geobanner.png" alt="mundial" style="width:100%">
+		<div class="w3-container">
+		  <h3><b>Acerca de nuestro club</b></h3>
+		  <h5>Blog sobre nuestro club y esperamos que el de más gente</h5>
+		</div>
+
+		<div class="w3-container">
+		  <p>
+			 El Club Tiro con Arco Santa Bárbara Alicante nace con la clara misión de promocionar 
+			 este deporte desde la base, a través de una escuela propia de varios niveles: 
+			 iniciación, perfeccionamiento, tecnificación y competición; en la que contamos 
+			 con técnicos titulados RFETA y FTACV:
+		   </p>
+		   <p>Puedes ponerte en contacto con nosotros 
+		   <span class="w3-tag w3-yellow"><a href="#contacto">aquí</span></a>
+		   </p>
+		</div>
+	  </div>
+	  <!-- fin introduccion -->
+	  <hr>
+	
+		<!-- contacto -->
+		<div class="w3-card-4 w3-margin w3-white" id="contacto">
+			<img src="img/theme/contactos.png" alt="Nature" style="width:100%">
+			<div class="w3-container">
+				<h3><b>CONTACTO</b></h3>
+				<p>Puedes contactar con nosotros por:</p>
+			</div>
+			<div class="w3-container">				
+				<div class="w3-row">
+
+
+				<div class="w3-bar w3-light-grey">
+				  <button class="w3-bar-item w3-button" onclick="openContacto('mail')"><i class="fa fa-envelope"></i> e-Mail</button>
+				  <button class="w3-bar-item w3-button" onclick="openContacto('whatsapp')"><i class="fa fa-whatsapp"></i> WhatsApp</button>
+				  <button class="w3-bar-item w3-button" onclick="openContacto('instagram')"><i class="fa fa-instagram"></i> Instagram</button>
+				  <button class="w3-bar-item w3-button" onclick="openContacto('facebook')"><i class="fa fa-facebook"></i>  Facebook</button>
+				</div>
+				<div id="mail" class="w3-container w3-center contacto">
+				  <h2><img alt="Gmail icon (2020).svg" src="//upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Gmail_icon_%282020%29.svg/320px-Gmail_icon_%282020%29.svg.png" decoding="async" width="160" height="120" srcset="//upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Gmail_icon_%282020%29.svg/480px-Gmail_icon_%282020%29.svg.png 1.5x, //upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Gmail_icon_%282020%29.svg/640px-Gmail_icon_%282020%29.svg.png 2x" data-file-width="512" data-file-height="384"></h2>
+				  <p>Escribenos un correo a esta dirección:</p>
+				  <h3 class="sombra"><a href="mailto:santabarbara@gmail.com">santabarbara@gmail.com</a></h3>
+				</div>
+
+				<div id="whatsapp" class="w3-container w3-center contacto" style="display:none">
+				  <h2><img alt="WhatsApp.svg" src="//upload.wikimedia.org/wikipedia/commons/thumb/6/6b/WhatsApp.svg/150px-WhatsApp.svg.png" decoding="async" width="150" height="150" srcset="//upload.wikimedia.org/wikipedia/commons/thumb/6/6b/WhatsApp.svg/225px-WhatsApp.svg.png 1.5x, //upload.wikimedia.org/wikipedia/commons/thumb/6/6b/WhatsApp.svg/300px-WhatsApp.svg.png 2x" data-file-width="512" data-file-height="513"></h2>
+				  <p>Añade en tu agenda este contacto</p> 
+				  <h3 class="sombra" style="color:red"><a href="https://wa.me/34664002262">+ 34 664 00 22 62</a></h3>
+				 <a href="https://api.whatsapp.com/send?phone=34664002262&text=hola,%20¿qué%20tal%20estás?">Mensaje</a>
+
+				</div>
+
+				<div id="instagram" class="w3-container w3-center contacto" style="display:none">
+				  <h2><img alt="Instagram logo 2022.svg" src="//upload.wikimedia.org/wikipedia/commons/thumb/9/95/Instagram_logo_2022.svg/150px-Instagram_logo_2022.svg.png" decoding="async" width="150" height="150" srcset="//upload.wikimedia.org/wikipedia/commons/thumb/9/95/Instagram_logo_2022.svg/225px-Instagram_logo_2022.svg.png 1.5x, //upload.wikimedia.org/wikipedia/commons/thumb/9/95/Instagram_logo_2022.svg/300px-Instagram_logo_2022.svg.png 2x" data-file-width="1000" data-file-height="1000"></h2>
+				  <p><a href="https://www.instagram.com/santabarbaraalicante/"><i class="fa fa-link"></i> Enlace a nuestro Insta</a></p>
+				</div>
+
+				<div id="facebook" class="w3-container w3-center contacto" style="display:none">
+				  <h2><img src="https://upload.wikimedia.org/wikipedia/commons/c/cd/Facebook_logo_%28square%29.png" width=100></h2>
+				  <p><a href="https://www.facebook.com/profile.php?id=100083450164606"><i class="fa fa-link"></i> Enlace a nuestro Face</a></p>
+				</div>
+
+				</div><!-- fin row -->
+			</div><!-- fin container -->
+		</div><!-- fin card -->
+		<!-- fin contacto -->
+		<hr>
+	
+	  <!-- socios -->
+	  <div class="w3-card-4 w3-margin w3-white" id="socios">
+			<img src="img/theme/socios.jpg" alt="socios" style="width:100%">
+			<div class="w3-container">
+				<h3><b>Política del club sobre socios</b></h3>
+				
+			</div>
+			<div class="w3-container">
+				<p>Si además de hacer el curso quieres continuar formándote, hazte socio del club, deberás 
+				tramitar tu licencia federativa y disfrutarás de:</p>
+				
+				<p>
+					<ul>
+						<li>Acceso a las instalaciones</li>
+						<li>Uso del material del club</li>
+						<li>Formación constante y avanzada</li>
+						<li>Asesoramiento para la adquisición de material</li>					
+						<li>Preparación para la competición</li>
+					</ul>
+				</p>
+				<p>
+					Si quieres practicar un deporte adaptado a ti, a tu tiempo, donde los límites los pones tú, 
+					donde el compañerismo y la relación social son fundamentales, somos tu club. 
+					<span class="w3-tag w3-yellow">¡Ven con nosotros !</span>  &nbsp; &nbsp;  <span class="w3-tag w3-yellow">¡Te esperamos !</span>
+				</p>
+			</div><!-- fin container -->
+		</div><!-- fin card -->
+		<!-- fin socios -->		
+		<hr>
+		
+		
+	<!-- cursos -->
+	<div class="w3-card-4 w3-margin w3-white" id="cursos">
+		<img src="img/theme/banner_curso.jpg" alt="Nature" style="width:100%">
+		<div class="w3-container">
+			<h3><b>Cursos de formación: día, precio, etc.</b></h3>			
+		</div>
+		<div class="w3-container">
+		<!--	<p>
+				El club imparte cursos de iniciación para cualquier persona, sin conocimientos previos, 
+				desde los 6 años en adelante, sin límite de edad. No necesitarás material, nosotros te lo 
+				prestamos durante el curso. Si está interesado sólo tiene que contactar con nosotros a 
+				través de correo o teléfono.
+			</p>
+			<p>
+				Los cursos se imparten los sábados de 10 a 13h y tienen un coste de 85€. Estos incluyen un 
+				seguro y el material a utilizar durante el curso.
+			</p>-->
+
+
+<div class="w3-row ">
+	<div class="w3-container w3-half ">
+		
+		<div class="w3-card-2" style="width:80%">
+			<img src="img/all/curso_basico.jpg" alt="iniciacion" style="width:100%">
+			<div class="w3-container w3-center">
+				<h4>Curso de iniciaci&oacute;n</h4>
+			</div>
+			<div class="w3-container">
+				<p>El club imparte cursos de iniciación para cualquier persona, sin conocimientos previos, 
+					desde los 6 años en adelante, sin límite de edad. No necesitarás material, nosotros te lo 
+					prestamos durante el curso. Si está interesado sólo tiene que contactar con nosotros a 
+					través de correo o teléfono.</p>
+				<p>
+					Los cursos se imparten los sábados de 10 a 13h. Estos incluyen un 
+					seguro y el material a utilizar durante el curso.
+				</p>
+				<p class="w3-center">
+					<a class="w3-button w3-teal" href="#contacto"> 85 € </a>
+				</p>				
+			</div>		  
+		</div>
+		
+	</div>
+	<div class="w3-container w3-half">
+		
+		<div class="w3-card-2" style="width:80%">
+			<img src="img/all/curso_avanzado.jpg" alt="avanzado" style="width:100%">
+			<div class="w3-container w3-center">
+				<h4>Curso de perfeccionamiento</h4>
+			</div>
+			<div class="w3-container">
+				<p>Una vez realizado el curso de formación y quieres perfeccionar tu técnica 
+				en función del tipo de arco elegido, puedes solicitar los cursos de perfeccionamiento 
+				para todos aquellos socios que lo soliciten. El precio del curso se convendrá 
+				en función de la duración del mismo.
+				</p>
+				<p>
+					Los cursos se imparten los sábados de 10 a 13h y tienen un coste de 85€. Estos incluyen un 
+					seguro y el material a utilizar durante el curso.
+				</p>
+				<p class="w3-center">
+					<a class="w3-button w3-teal" href="#contacto"> Consultar </a>
+				</p>
+			</div>		  
+		</div>	  
+	    
+	</div>
+</div>
+
+
+
+
+
+			
+	
+			
+			
+			
+		</div><!-- fin container -->
+	</div><!-- fin card -->
+	<!-- fin cursos -->
+	<hr>		
+		
+		
+		
+	
+	  <div id="marcador"></div>
+	  
+	  <!-- divBlogUltimo-->
+		<div id="divBlogUltimo"></div>
+		<hr>
+	  <!-- END divBlogUltimo -->
+
+	  <!-- divUnPost-->
+		<div id="divUnPost"></div>
+		<hr>
+	  <!-- END divUnPost -->
+
+	  <!-- divBotonPosts listado 5 posts-->
+		<div id="divBotonPosts"></div>
+		<hr>
+	  <!-- END -->	
+	
+	
+
+
+
+
+
+
+  <!-- divBotonPosts listado 5 posts-->
+	<div id="divBotonPosts"></div>
+	<hr>
+<!-- END -->
+  
+  <!-- paginador -->
+  <div class="w3-card-4 w3-margin w3-white">
+    
+    <div class="w3-container">
+      <h3><b>Search in posts</b></h3> 
+    </div>
+
+    <div class="w3-container">		
+		<div class="w3-container w3-white w3-bottombar w3-border-gray w3-border w3-center">
+			<p><div id="paginador"></div></p>
+		</div>		
+		<p>&nbsp;</p>		
+    </div>
+  </div>
+  <hr>
+
+
+
+  <!-- Posts -->
+  <div id="popularPosts"> </div>
+  <hr>
+  
+
+
+
+  <!-- Calendar -->
+  <div class="w3-card-4 w3-margin w3-white">
+    <img src="img/theme/banner_calendario.png" alt="Nature" style="width:100%">
+    <div class="w3-container">
+      <h3><b>Calendario</b></h3>
+
+    </div>
+
+    <div class="w3-container">
+		<div id="calendar" style="padding: 1rem;"></div>
+    </div>
+  </div>
+  <hr>
+
+
+
+<!-- END BLOG ENTRIES -->
+</div>
+
+  <!-- ARTICULOS DE UN TAG-->
+  <div id="postsByTagContainer" class="w3-card w3-margin" style="display:none">
+    <div class="w3-container w3-padding">
+      <h4 id="tagNameTitle"></h4>
+    </div>
+    <ul id="postsByTag" class="w3-ul w3-hoverable w3-white">
+  </div> 
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Introduction menu -->
+<div class="w3-col l4">
+	
+  <!-- instalaciones -->
+  <div id="instalaciones" class="w3-card w3-margin w3-margin-top">
+  <img src="img/avatar2.jpg" style="width:100%">
+    <div class="w3-container w3-white">
+      <h4><b>Instalaciones</b></h4>
+      <p>Actualmente nuestras instalaciones se encuentran en el <span class="w3-tag w3-blue">Colegio Público CEIP Rabasa</span>, situado en el barrio con el mismo nombre.
+      El campo de tiro permite tirar a todas las distancias oficiales de las competiciones. Disponemos de varios parapetos para los socios. </p>
+      <hr><p><a href="https://goo.gl/maps/iMNV8DEqPNQfVGsU9" target="_blank"><i class="fa fa-map-marker fa-2x"></i><span class="w3-tag w3-blue">Enlace Google Maps</span> a C.E.I.P Rabasa de Alicante, C. de Tuberia, 93, 03009 Alicante</a></p>
+    </div>
+  </div><hr>
+  
+  <!-- Posts -->
+  <div class="w3-card w3-margin">
+    <div class="w3-container w3-padding">
+      <h4>&Uacute;ltimos posts</h4>
+    </div>
+    <ul id="last5Posts" class="w3-ul w3-hoverable w3-white">  </ul>
+  </div>
+  <hr> 
+
+  <!-- Team -->
+  <div class="w3-card w3-margin">
+    <div class="w3-container w3-padding">
+      <h4>Directiva</h4>
+    </div>
+    <ul class="w3-ul w3-hoverable w3-white">
+      <li class="w3-padding-16">
+        <img src="img/team/ceo.png" alt="Image" class="w3-left w3-margin-right" style="width:50px">
+        <span class="w3-large">Miguel Martí</span><br>
+        <span>Presidente</span>
+      </li>
+      <li class="w3-padding-16">
+        <img src="img/team/girl.png" alt="Image" class="w3-left w3-margin-right" style="width:50px">
+        <span class="w3-large">Begoña Blanco</span><br>
+        <span>Secretaria</span>
+      </li> 
+      <li class="w3-padding-16">
+        <img src="img/team/boy.png" alt="Image" class="w3-left w3-margin-right" style="width:50px">
+        <span class="w3-large">José M. Mira</span><br>
+        <span>Vicepresidente</span>
+      </li>   
+      <li class="w3-padding-16 w3-hide-medium w3-hide-small">
+        <img src="img/team/girl2.png" alt="Image" class="w3-left w3-margin-right" style="width:50px">
+        <span class="w3-large">Inma Belmonte</span><br>
+        <span>Tesorería</span>
+      </li>  
+    </ul>
+  </div>
+  <hr>  
+ 
+  <!-- Labels / tags -->
+  <div class="w3-card w3-margin">
+    <div class="w3-container w3-padding">
+      <h4>Buscar por palabras</h4>
+    </div>
+    <div class="w3-container w3-white">
+		<p id="tagsList"></p>
+    </div>
+  </div>
+  
+  
+  <!-- enlaces de interes -->
+  <div id="links" class="w3-card w3-margin">
+    <div class="w3-container w3-padding">
+      <h4>Enlaces web</h4>
+    </div>
+    <ul class="w3-ul w3-hoverable w3-white">
+		<div id="links"></div>
+    </ul>
+  </div>
+  <hr> 
+  
+  <!-- ultimos eventos -->
+
+  <div class="w3-card w3-margin">
+    <div class="w3-container w3-padding">
+      <h4>Próximos eventos</h4>
+    </div>
+    <ul class="w3-ul w3-hoverable w3-white">
+		<div id="nextEvents"></div>
+    </ul>
+  </div>
+  <hr> 
+  <!-- ultimos eventos -->  
+    
+  
+<!-- END Introduction Menu -->
+</div>
+
+<!-- END GRID -->
+</div><br>
+
+<!-- END w3-content -->
+</div>
+
+<!-- imagen mapa iberpix -->
+<div id="mapa">
+	<img src="img/map/mapapin.png" class="w3-image" style="width:100%">
+</div>
+
+<footer class="w3-container w3-padding-64 w3-dark-grey w3-center w3-large"> 
+  <!-- <i class="fa fa-facebook-official w3-hover-opacity"></i>
+  <i class="fa fa-instagram w3-hover-opacity"></i>
+  <i class="fa fa-snapchat w3-hover-opacity"></i>
+  <i class="fa fa-pinterest-p w3-hover-opacity"></i>
+  <i class="fa fa-twitter w3-hover-opacity"></i>
+  <i class="fa fa-linkedin w3-hover-opacity"></i> -->
+ <p>Creado por J<a href="newpost.html" target="_blank" class="w3-hover-text-green"><i class="fa fa-bullseye w3-hover-opacity"></i></a>se Manuel Mira</p>
+  <!-- <p>Powered by <a href="https://josemamira.github.io/" target="_blank" class="w3-hover-text-green">w3.css</a></p> -->
+</footer>
+
+
+
+<script src="js/main.js"></script>
+<script>
+	
+// Slideshow
+var slideIndex = 1;
+showDivs(slideIndex);
+
+function plusDivs(n) {
+  showDivs(slideIndex += n);
+}
+
+function showDivs(n) {
+  var i;
+  var x = document.getElementsByClassName("mySlides");
+  if (n > x.length) {slideIndex = 1}
+  if (n < 1) {slideIndex = x.length}
+  for (i = 0; i < x.length; i++) {
+    x[i].style.display = "none";  
+  }
+  x[slideIndex-1].style.display = "block";  
+}	
+	
+
+
+function openContacto(medio) {
+  var i;
+  var x = document.getElementsByClassName("contacto");
+  for (i = 0; i < x.length; i++) {
+    x[i].style.display = "none";  
+  }
+  document.getElementById(medio).style.display = "block";  
+}
+
+
+
+
+// Analizar la URL para obtener enlace a un artículo
+//comprueba si hay una url con el codigo del tipo http://localhost/index.html?id=3
+var laURL = window.location.href;
+var patron = /id=/i;
+var res = laURL.match(patron);
+if (res == "id=") {
+	var id_art = window.location.href.split( '?id=' )[1];
+	//alert(id_art);
+	loadPost(id_art);
+}
+
+// Script for side navigation
+function w3_open() {
+  var x = document.getElementById("mySidebar");
+  x.style.width = "300px";
+  x.style.paddingTop = "10%";
+  x.style.display = "block";
+}
+
+// Close side navigation
+function w3_close() {
+  document.getElementById("mySidebar").style.display = "none";
+}
+
+// Used to toggle the menu on smaller screens when clicking on the menu button
+function openNav() {
+  var x = document.getElementById("navDemo");
+  if (x.className.indexOf("w3-show") == -1) {
+    x.className += " w3-show";
+  } else {
+    x.className = x.className.replace(" w3-show", "");
+  }
+}
+
+// Carousel de imágenes
+var myIndex = 0;
+carousel();
+
+function carousel() {
+  var i;
+  var x = document.getElementsByClassName("mySlides");
+  for (i = 0; i < x.length; i++) {
+    x[i].style.display = "none";
+  }
+  myIndex++;
+  if (myIndex > x.length) {myIndex = 1}
+  x[myIndex-1].style.display = "block";
+  setTimeout(carousel, 4000); // Change image every 4 seconds
+}
+
+
+
+
+
+
+
+</script>
+
+
+
+</body>
+</html>
