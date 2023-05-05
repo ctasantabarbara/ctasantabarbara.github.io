@@ -42,8 +42,9 @@ var hoy = new Date();
     }    
     //console.log(myLinks);
     
+    /*
     // load links.json
-	var url3 = 'https://ctasantabarbara.github.io/post/events.json';
+    var url3 = 'https://ctasantabarbara.github.io/post/events.json';
     var myEvents = getSomething3();
 
     function getSomething3(){
@@ -59,7 +60,8 @@ var hoy = new Date();
         });
         return result3;
     }    
-    //console.log(myEvents);    
+    //console.log(myEvents); 
+    */
     
 
 // vaciamos la lista de post
