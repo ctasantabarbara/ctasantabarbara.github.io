@@ -1,0 +1,182 @@
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Fullcalendar: Añadir evento</title>
+	<link rel="stylesheet" href="css/w3.css">
+	<link rel="stylesheet" href="css/styles.css">	
+	<link rel='stylesheet' type='text/css' href='css/fullcalendar.css' />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="js/jquery-3.2.1.js"></script>
+<!--da problemas con esta version <script type='text/javascript' src='js/jquery-3.6.0.min.js'></script>-->
+<script >
+	var hoy = new Date();
+	var jsonbinId ='63dbecb5ebd26539d073eabb'; //eventos2.json
+	var jsonAccessKey = '$2b$10$NbcBbge09sMN8yjVPsaDhujUZHGFMQWJNxA.iwAaFP0sbjw6qu.MC';
+$(document).ready(function(){
+
+	// https://www.jose-aguilar.com/blog/fullcalendar-con-jquery/
+	var hoy = new Date();console.log(hoy);
+
+
+
+	// proximos eventos
+	let req = new XMLHttpRequest();
+	req.onreadystatechange = () => {
+		if (req.readyState == XMLHttpRequest.DONE) {
+			console.log(req.responseText);
+			//$("#eventsOld").val(req.responseText);
+			events = JSON.parse(req.responseText).record.events;
+			//Filtro eventos futuros		
+			var eventosFuturos = events.filter(a => {
+			  var date = new Date(a.start);
+			  return (date >= hoy );
+			});
+			//console.log(eventosFuturos)
+			for (var value of eventosFuturos) {
+				//console.log(value)
+				$("#proximosEv").append('<li>'+value.start+': <a href="'+value.url+'">'+value.title+'</a></li>');
+			}
+		}
+	};
+	req.open('GET', 'https://api.jsonbin.io/v3/b/'+jsonbinId, true);
+	req.setRequestHeader('X-Access-Key', jsonAccessKey);
+	req.send();	  
+
+
+
+  $("#testEv").click(function(){
+	  
+ 	  
+	  let evento = {};
+	  // comprueba titulo
+	  if ($('#title').val().length === 0) {alert('Rellena el título');return false; } else {evento.title = $('#title').val();}
+	  // comprueba fecha inicio
+	  if ($('#start').val().length === 0 && $('#start2').val().length === 0) {
+		  alert('Rellena la fecha de inicio en cualquiera de los sistemas');return false;
+	  } else if ($('#start').val().length > 0 && $('#start2').val().length > 0) {
+		  alert('Solo utilizar un sistema');return false;
+	  } else {
+		  if ($('#start').val().length === 0) { evento.start = $('#start2').val(); } 
+		  else {
+			  evento.start = $('#start').val();
+		  }
+	  }
+	  // comprueba fecha fin
+	  if ($('#end').val().length === 0) {console.log('sin fecha fin');}  else {
+	  	  if ($('#start').val() >= $('#end').val() ) {
+			  alert('la fecha de fin no puede ser anterior a la de inicio');
+			  return false;
+		  } else {
+			  evento.end = $('#end').val();
+		  }
+	  }
+	  // comprueba url
+	  if ($('#url').val().length === 0) {console.log('sin url');evento.url ='#';}  else {evento.url = $('#url').val();}
+	  
+	  alert("Datos correctos");
+	  document.getElementById("updateEv").style.display = "block";
+	  
+	  let req = new XMLHttpRequest();
+
+	  req.onreadystatechange = () => {
+	     if (req.readyState == XMLHttpRequest.DONE) {
+		   console.log(req.responseText);
+		   events = JSON.parse(req.responseText).record.events;
+		   events.push(evento);
+		   console.log(events);
+		   let obj = {events:events};
+		   console.log(obj);
+		   let evenStr = JSON.stringify(obj);
+		   console.log(evenStr);
+		   $("#eventsNew").val(evenStr);
+		   //events = JSON.parse($("#eventsNew").val()).record.events;
+	     }
+	   };
+
+	   req.open('GET', 'https://api.jsonbin.io/v3/b/'+jsonbinId, true);
+	   req.setRequestHeader('X-Access-Key', jsonAccessKey);
+	   req.send();	  
+
+  });// fin boton testEv
+
+
+  $("#updateEv").click(function(){
+	  if ($('#eventsNew').val().length === 0) {alert('Comprueba primero ');return false; } else {
+		  let req = new XMLHttpRequest();
+		  req.onreadystatechange = () => {
+			  if (req.readyState == XMLHttpRequest.DONE) {
+				  console.log('añadido evento');
+				  document.getElementById("updateEv").style.display = "none";
+				  alert('añadido evento');
+				  // limpiar form.
+				  $("#title").val('');
+				  $("#start").val('');
+				  $("#start2").val('');
+				  $("#end").val('');
+				  $("#url").val('');
+			  }
+		   }; 
+		   req.open('PUT','https://api.jsonbin.io/v3/b/'+jsonbinId, true);
+		   req.setRequestHeader('Content-Type', 'application/json');
+		   req.setRequestHeader('X-Access-Key', jsonAccessKey);
+		   req.send( $("#eventsNew").val() );
+		   
+	   }  
+
+  });// fin boton updateEv
+
+}); // fin ready
+
+</script>
+
+</head>
+
+<body>
+	
+<!-- Top container -->
+<div class="w3-bar w3-top w3-light-blue w3-large" style="z-index:4">
+  <h2 class="w3-center"><i class="fa fa-calendar"></i> Eventos</h2>
+</div>	
+<div class="w3-container"> 
+	<h3 >Rellene los datos solicitados para crear un evento</h3>
+
+	<label for="title">Título del evento:</label><input type="text" class="w3-input w3-border  w3-light-grey" id="title" name="title" required placeholder="Escribe el título del evento">
+  
+	<p><i class="fa fa-calendar"></i> Fecha de inicio. Elija uno de los dos métodos (obligatorio): fecha o fecha y hora</p> 
+	<div class="w3-row-padding">
+		<div class="w3-half">
+			<label for="start">Fecha:</label><input type="date" class="w3-input w3-border w3-light-grey"  id="start" name="start">
+		</div>
+		<div class="w3-half">
+			<label for="start2">Fecha y hora:</label><input type="datetime-local" class="w3-input w3-border w3-light-grey" id="start2" name="start2">
+		</div>
+	</div>
+
+	<hr>
+		<label for="end"><i class="fa fa-calendar"></i> Fecha fin (opcional):</label><input type="date" class="w3-input w3-border w3-light-grey" id="end" name="end">  
+	<hr>
+	<label for="url"><i class="fa fa-link"></i> Enlace web:</label><input type="text" class="w3-input w3-border w3-light-grey" id="url" name="url" placeholder="Escribe la dirección web. Debe empiezar por htttp:// o https://. Ejemplo mal: www.ua.es">
+	<hr>
+
+	<input type="hidden" id="eventsNew" name="eventsNew">
+	<table>
+		  <tr>
+			  <td><button class="w3-button w3-indigo" id="testEv">1. Comprobar evento</button></td>
+			  <td><button class="w3-button w3-green" id="updateEv" style="display:none" >2. Añadir evento</button></td>
+		  </tr>
+	</table>
+	 
+	<div class="w3-container"> 
+	  <h3>Próximos eventos</h3>
+	  <ul id="proximosEv"></ul> 
+	</div>
+ 
+  
+</div>
+
+
+	
+
+</body>
+</html>

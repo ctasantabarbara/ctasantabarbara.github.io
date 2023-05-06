@@ -1,0 +1,216 @@
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Fullcalendar: Añadir evento</title>
+	<link rel="stylesheet" href="css/w3.css">
+	<link rel="stylesheet" href="css/styles.css">	
+	<link rel='stylesheet' type='text/css' href='css/fullcalendar.css' />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+	<script src="js/jquery-3.2.1.js"></script>
+	<!--da problemas con esta version <script type='text/javascript' src='js/jquery-3.6.0.min.js'></script>-->
+	<link rel="stylesheet" href="js/trumbowyg/dist/ui/trumbowyg.min.css">
+	<script src="js/trumbowyg/dist/trumbowyg.min.js"></script>
+	
+<script >
+	var hoy = new Date();
+	var jsonbinId ='645577959d312622a35837a2'; //eventos2.json
+	var jsonAccessKey = '$2b$10$NbcBbge09sMN8yjVPsaDhujUZHGFMQWJNxA.iwAaFP0sbjw6qu.MC';
+$(document).ready(function(){
+
+	// https://www.jose-aguilar.com/blog/fullcalendar-con-jquery/
+	var hoy = new Date();console.log(hoy);
+	
+	/*var autores = [
+      { "id": "2", "nombre": "José Manuel Mira" },
+      { "id": "3", "nombre": "Inmaculada Belmonte" },
+      { "id": "4", "nombre": "Miguel Martí " },
+      { "id": "5", "nombre": "Begoña Blanco" }
+   ];
+   for (var indice = 0; indice <= autores.length; indice++) {
+      $('#autor').append('<option value="' + autores[indice].id + '">' + autores[indice].nombre + '</option>');
+   }*/
+
+
+
+	// proximos eventos
+	let req = new XMLHttpRequest();
+	req.onreadystatechange = () => {
+		if (req.readyState == XMLHttpRequest.DONE) {
+			console.log(req.responseText);
+			//$("#eventsOld").val(req.responseText);
+			events = JSON.parse(req.responseText).record.posts;
+			const numPost = Object.keys(events).length;
+			console.log(numPost);
+			document.getElementById("id").value = numPost+1;
+
+			for (var value of events) {
+				//console.log(value)
+				$("#proximosEv").append('<li>'+value.id+': <a href="'+value.enlace_web+'">'+value.titulo+'</a></li>');
+			}
+		}
+	};
+	req.open('GET', 'https://api.jsonbin.io/v3/b/'+jsonbinId, true);
+	req.setRequestHeader('X-Access-Key', jsonAccessKey);
+	req.send();	  
+
+
+
+  $("#testEv").click(function(){
+	  if ($('#titulo').val().length === 0) {alert('Rellena el título');return false; } //else {post.titulo = $('#titulo').val();}
+	  if ($('#texto_corto').val().length === 0) {alert('Rellena el texto corto');return false; } //else {post.texto_corto = $('#texto_corto').val();}
+	  if ($('#texto_largo').val().length === 0) {alert('Rellena el texto largo');return false; } //else {post.texto_largo = $('#texto_largo').val();}	
+
+	  	  
+	  let evento = {
+		  "id": document.getElementById("id").value,
+		  "activo": true,
+		  "titulo": document.getElementById("titulo").value, 
+		  "texto_corto": document.getElementById("texto_corto").value,
+		  "texto_largo": document.getElementById("texto_largo").value,
+		  "autor": document.getElementById("autor").value,
+		  "enlace_img": document.getElementById("enlace_img").value,
+		  "enlace_web": document.getElementById("enlace_web").value,
+		  "fecha_articulo": document.getElementById("fecha_articulo").value,
+		  "fecha_publicacion": document.getElementById("fecha_publicacion").value,
+		  "tags": document.getElementById("tags").value,
+		  "tema": document.getElementById("tema").value
+	  };
+	  console.log(evento);
+ 	  
+	  alert("Datos correctos");
+	  document.getElementById("updateEv").style.display = "block";
+	  
+	  let req = new XMLHttpRequest();
+
+	  req.onreadystatechange = () => {
+	     if (req.readyState == XMLHttpRequest.DONE) {
+		   console.log(req.responseText);
+		   events = JSON.parse(req.responseText).record.posts;
+		   events.push(evento);
+		   console.log(events);
+		   let obj = {events:events};
+		   console.log(obj);
+		   let evenStr = JSON.stringify(obj);
+		   console.log(evenStr);
+		   $("#eventsNew").val(evenStr);
+		   //events = JSON.parse($("#eventsNew").val()).record.events;
+	     }
+	   };
+
+	   req.open('GET', 'https://api.jsonbin.io/v3/b/'+jsonbinId, true);
+	   req.setRequestHeader('X-Access-Key', jsonAccessKey);
+	   req.send();	  
+
+  });// fin boton testEv
+
+
+  $("#updateEv").click(function(){
+	  if ($('#eventsNew').val().length === 0) {alert('Comprueba primero ');return false; } else {
+		  let req = new XMLHttpRequest();
+		  req.onreadystatechange = () => {
+			  if (req.readyState == XMLHttpRequest.DONE) {
+				  console.log('añadido evento');
+				  document.getElementById("updateEv").style.display = "none";
+				  alert('añadido evento');
+				  // limpiar form.
+				  $("#titulo").val('');
+				  $("#texto_corto").val('');
+				  $("#texto_largo").val('');
+				  $("#autor").val('');
+				  $("#enlace_img").val('');
+				  $("#enlace_web").val('');
+				  $("#fecha_articulo").val('');
+				  $("#fecha_publicacion").val('');
+				  $("#tags").val('');
+				  $("#tema").val('');
+			  }
+		   }; 
+		   req.open('PUT','https://api.jsonbin.io/v3/b/'+jsonbinId, true);
+		   req.setRequestHeader('Content-Type', 'application/json');
+		   req.setRequestHeader('X-Access-Key', jsonAccessKey);
+		   req.send( $("#eventsNew").val() );
+		   
+	   }  
+
+  });// fin boton updateEv
+
+}); // fin ready
+
+</script>
+
+</head>
+
+<body>
+	
+<!-- Top container -->
+<div class="w3-bar w3-top w3-light-blue w3-large" style="z-index:4">
+  <h2 class="w3-center"><i class="fa fa-calendar"></i> Post</h2>
+</div>	
+<div class="w3-container"> 
+	<h3 >Rellene los datos solicitados para crear un post</h3>
+	
+	
+		  <label for="id">Identificador (sólo lectura):</label><input class="w3-input w3-border w3-round" type="text" id="id" readonly placeholder="id"><br>
+		  <label for="autor">Autor del art&iacute;culo:</label>
+		  <select class="w3-select" name="autor" id="autor" >
+			  <option value="1" selected>An&oacute;nimo</option>
+			  <option value="2">José Manuel Mira</option>
+			  <option value="3">Inma Belmonte</option>
+			  <option value="4">Begoña Blanco</option>
+			  <option value="5">Miguel Martí</option>			  
+		  </select><br>		  
+		  <label for="active">Activo:</label><input class="w3-check" id="active" name="active" type="checkbox" checked="checked"><br><br>
+		  <label for="titulo">Título:</label><input type="text"  class="w3-input w3-border w3-round" id="titulo" placeholder="Titulo articulo"><br>
+		  <label for="texto_corto">Texto corto:</label><textarea id="texto_corto">texto corto</textarea><br>
+		  <label for="texto_largo">Cuerpo del artículo:</label><textarea id="texto_largo">texto largo del articulo</textarea><br>
+		  <br>
+		  <label for="enlace_img">Enlace web de imagen:</label><input type="text" class="w3-input w3-border w3-round" id="enlace_img" 
+		 placeholder="Example: https://ctasantabarbara.github.io/img/avatar.jpg"><br>
+		  <label for="enlace_web">Enlace web:</label><input type="text" class="w3-input w3-border w3-round" id="enlace_web" placeholder="Dirección web. Ejemplo http://... "><br>
+		 
+		  <label for="fecha_articulo">Fecha articulo:</label>
+		  <input type="date" id="fecha_articulo" name="fecha_articulo" readonly min="2022-06-01" max="2030-12-31"><br>
+		   
+	 
+		   <label for="fecha_publicacion">Fecha publicacion:</label>
+		  <input type="date" id="fecha_publicacion" name="fecha_publicacion"
+			 value="2022-06-01"
+			 min="2022-06-01" max="2030-12-31"><br>
+	 
+		  <label for="tags">Palabras clave (separadas por ","):</label><input type="text" class="w3-input w3-border w3-round" id="tags" value="Sala, recurvo, compuesto" placeholder="Write tag words separed by comma"><br>
+		  <label for="tema">Tema:</label>
+		  <select name="tema" class="w3-select" id="tema">
+			<option value="1" selected>General</option>
+			<option value="2">Competiciones</option>
+			<option value="3">Formación</option>
+			<option value="4">Club</option>
+			<option value="5">Otros</option>
+			
+		  </select><br>	
+	
+	<input type="text" id="eventsNew" name="eventsNew">
+	<table>
+		  <tr>
+			  <td><button class="w3-button w3-indigo" id="testEv">1. Comprobar articulo</button></td>
+			  <td><button class="w3-button w3-green" id="updateEv" style="display:none" >2. Añadir articulo</button></td>
+		  </tr>
+	</table>
+	 
+	<div class="w3-container"> 
+	  <h3>Todos los  posts:</h3>
+	  <ul id="proximosEv"></ul> 
+	</div>
+
+  
+</div>
+
+<script>
+	$('#texto_corto').trumbowyg();	
+	$('#texto_largo').trumbowyg();
+	document.getElementById('fecha_articulo').valueAsDate = new Date();
+	document.getElementById('fecha_publicacion').valueAsDate = new Date();
+</script>		
+
+</body>
+</html>
