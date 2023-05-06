@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>New post</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="css/w3.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script type="text/javascript" src="js/crypto-js.min.js"></script>
+    <script src="js/jquery-3.6.0.min.js"></script>
+    
+  </head>
+  <body>
+<div class="w3-container w3-blue">
+  <h2 class="w3-center"><i class="fa fa-gear" aria-hidden="true"></i> Crear post y eventos </h2>
+</div>
+<div id="finishMsg"></div>
+<div id="content">
+	<div id="tokenMsg" class="w3-panel w3-pale-green w3-border">
+	  <h3>Mensaje</h3>
+	  <p>Haz click en el botón para acceder</p>
+	</div>
+	<p class="w3-center"><button id="getToken" onclick="getToken()" class="w3-button w3-teal w3-round-large">
+		<i class="fa fa-unlock-alt" aria-hidden="true"></i> Autentificar</button>
+	</p>
+
+
+
+
+	
+	
+</div>
+
+<input type="hidden" id="tokenValue">
+<script>
+// https://stackoverflow.com/questions/24337317/encrypt-with-php-decrypt-with-javascript-cryptojs
+var CryptoJSAesJson = {
+    stringify: function (cipherParams) {
+        var j = {ct: cipherParams.ciphertext.toString(CryptoJS.enc.Base64)};
+        if (cipherParams.iv) j.iv = cipherParams.iv.toString();
+        if (cipherParams.salt) j.s = cipherParams.salt.toString();
+        return JSON.stringify(j);
+    },
+    parse: function (jsonStr) {
+        var j = JSON.parse(jsonStr);
+        var cipherParams = CryptoJS.lib.CipherParams.create({ciphertext: CryptoJS.enc.Base64.parse(j.ct)});
+        if (j.iv) cipherParams.iv = CryptoJS.enc.Hex.parse(j.iv)
+        if (j.s) cipherParams.salt = CryptoJS.enc.Hex.parse(j.s)
+        return cipherParams;
+    }
+}
+
+
+
+
+
+function getToken() {
+	let xhr = new XMLHttpRequest();
+	xhr.open('GET', 'https://www.sigua.ua.es/es/test/faketoken.php');
+	xhr.send();
+	xhr.onload = function() {
+		if (xhr.status != 200) { // analiza el estado HTTP de la respuesta
+			alert('Error ${xhr.status}: ${xhr.statusText}'); // ej. 404: No encontrado
+		} else { // muestra el resultado
+			var data = JSON.parse(xhr.response);
+			//console.log(data);
+			var encrypted =  JSON.stringify(data);
+		 
+			let text;
+			let key = prompt("Por favor introduzca la contraseña:", "password");
+			if (key == null || key == "") {
+				text = "User cancelled the prompt.";
+			} else {
+				try {
+					var decrypted = JSON.parse(CryptoJS.AES.decrypt(encrypted, key, {format: CryptoJSAesJson}).toString(CryptoJS.enc.Utf8));
+					document.getElementById("tokenMsg").innerHTML = '<h3>Mensaje</h3><p>Autentificación satisfactoria.</p>'+
+					'<p><a class="w3-btn w3-green" href="newEvent.html" >nuevo evento</a></p>'+
+					'<p><a class="w3-btn w3-blue" href="newPost.html" >nuevo post</a></p>';
+					document.getElementById("tokenValue").value = decrypted;
+					//const myForm = document.getElementById('myForm');
+					document.getElementById("getToken").style.display = 'none'; 
+					//myForm.style.display = 'block'; 				
+				}
+				catch(err) {
+					document.getElementById("tokenMsg").innerHTML = '<h3>ERROR</h3><p>Contraseña incorrecta. Inténtelo de nuevo.<br>'+err.message+'</p>';					
+				}
+			}
+		};
+	}
+}
+
+
+
+
+
+
+
+</script>
+
+
+  </body>
+</html>
