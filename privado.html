@@ -75,8 +75,8 @@ function getToken() {
 				try {
 					var decrypted = JSON.parse(CryptoJS.AES.decrypt(encrypted, key, {format: CryptoJSAesJson}).toString(CryptoJS.enc.Utf8));
 					document.getElementById("tokenMsg").innerHTML = '<h3>Mensaje</h3><p>Autentificación satisfactoria.</p>'+
-					'<p><a class="w3-btn w3-green" href="newEvent.html" >nuevo evento</a></p>'+
-					'<p><a class="w3-btn w3-blue" href="newPost.html" >nuevo post</a></p>';
+					'<p><a class="w3-btn w3-green" href="newEvent.html" ><i class="fa fa-calendar"></i>&nbsp;nuevo evento</a></p>'+
+					'<p><a class="w3-btn w3-blue" href="newPost.html" ><i class="fa fa-file-text-o"></i>&nbsp;nuevo post</a></p>';
 					document.getElementById("tokenValue").value = decrypted;
 					//const myForm = document.getElementById('myForm');
 					document.getElementById("getToken").style.display = 'none'; 

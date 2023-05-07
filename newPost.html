@@ -2,7 +2,7 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Fullcalendar: Añadir evento</title>
+	<title>Añadir articulo</title>
 	<link rel="stylesheet" href="css/w3.css">
 	<link rel="stylesheet" href="css/styles.css">	
 	<link rel='stylesheet' type='text/css' href='css/fullcalendar.css' />
@@ -14,39 +14,27 @@
 	
 <script >
 	var hoy = new Date();
-	var jsonbinId ='645577959d312622a35837a2'; //eventos2.json
+	var jsonbinId ='645577959d312622a35837a2'; //posts.json
 	var jsonAccessKey = '$2b$10$NbcBbge09sMN8yjVPsaDhujUZHGFMQWJNxA.iwAaFP0sbjw6qu.MC';
 $(document).ready(function(){
 
 	// https://www.jose-aguilar.com/blog/fullcalendar-con-jquery/
 	var hoy = new Date();console.log(hoy);
-	
-	/*var autores = [
-      { "id": "2", "nombre": "José Manuel Mira" },
-      { "id": "3", "nombre": "Inmaculada Belmonte" },
-      { "id": "4", "nombre": "Miguel Martí " },
-      { "id": "5", "nombre": "Begoña Blanco" }
-   ];
-   for (var indice = 0; indice <= autores.length; indice++) {
-      $('#autor').append('<option value="' + autores[indice].id + '">' + autores[indice].nombre + '</option>');
-   }*/
 
-
-
-	// proximos eventos
+	// todos los posts
 	let req = new XMLHttpRequest();
 	req.onreadystatechange = () => {
 		if (req.readyState == XMLHttpRequest.DONE) {
 			console.log(req.responseText);
-			//$("#eventsOld").val(req.responseText);
-			events = JSON.parse(req.responseText).record.posts;
-			const numPost = Object.keys(events).length;
+			//$("#postsOld").val(req.responseText);
+			posts = JSON.parse(req.responseText).record.posts;
+			const numPost = Object.keys(posts).length;
 			console.log(numPost);
 			document.getElementById("id").value = numPost+1;
 
-			for (var value of events) {
+			for (var value of posts) {
 				//console.log(value)
-				$("#proximosEv").append('<li>'+value.id+': <a href="'+value.enlace_web+'">'+value.titulo+'</a></li>');
+				$("#listPosts").append('<li>'+value.id+': <a href="'+value.enlace_web+'">'+value.titulo+'</a></li>');
 			}
 		}
 	};
@@ -56,13 +44,13 @@ $(document).ready(function(){
 
 
 
-  $("#testEv").click(function(){
+  $("#testPost").click(function(){
 	  if ($('#titulo').val().length === 0) {alert('Rellena el título');return false; } //else {post.titulo = $('#titulo').val();}
 	  if ($('#texto_corto').val().length === 0) {alert('Rellena el texto corto');return false; } //else {post.texto_corto = $('#texto_corto').val();}
 	  if ($('#texto_largo').val().length === 0) {alert('Rellena el texto largo');return false; } //else {post.texto_largo = $('#texto_largo').val();}	
 
 	  	  
-	  let evento = {
+	  let articulo = {
 		  "id": document.getElementById("id").value,
 		  "activo": true,
 		  "titulo": document.getElementById("titulo").value, 
@@ -76,25 +64,25 @@ $(document).ready(function(){
 		  "tags": document.getElementById("tags").value,
 		  "tema": document.getElementById("tema").value
 	  };
-	  console.log(evento);
+	  console.log(articulo);
  	  
 	  alert("Datos correctos");
-	  document.getElementById("updateEv").style.display = "block";
+	  document.getElementById("updatePost").style.display = "block";
 	  
 	  let req = new XMLHttpRequest();
 
 	  req.onreadystatechange = () => {
 	     if (req.readyState == XMLHttpRequest.DONE) {
 		   console.log(req.responseText);
-		   events = JSON.parse(req.responseText).record.posts;
-		   events.push(evento);
-		   console.log(events);
-		   let obj = {events:events};
+		   posts = JSON.parse(req.responseText).record.posts;
+		   posts.push(articulo);
+		   console.log(posts);
+		   let obj = {posts:posts};
 		   console.log(obj);
 		   let evenStr = JSON.stringify(obj);
 		   console.log(evenStr);
-		   $("#eventsNew").val(evenStr);
-		   //events = JSON.parse($("#eventsNew").val()).record.events;
+		   $("#postsNew").val(evenStr);
+		   //posts = JSON.parse($("#postsNew").val()).record.posts;
 	     }
 	   };
 
@@ -102,17 +90,17 @@ $(document).ready(function(){
 	   req.setRequestHeader('X-Access-Key', jsonAccessKey);
 	   req.send();	  
 
-  });// fin boton testEv
+  });// fin boton testPost
 
 
-  $("#updateEv").click(function(){
-	  if ($('#eventsNew').val().length === 0) {alert('Comprueba primero ');return false; } else {
+  $("#updatePost").click(function(){
+	  if ($('#postsNew').val().length === 0) {alert('Comprueba primero ');return false; } else {
 		  let req = new XMLHttpRequest();
 		  req.onreadystatechange = () => {
 			  if (req.readyState == XMLHttpRequest.DONE) {
-				  console.log('añadido evento');
-				  document.getElementById("updateEv").style.display = "none";
-				  alert('añadido evento');
+				  console.log('añadido articulo');
+				  document.getElementById("updatePost").style.display = "none";
+				  alert('añadido articulo');
 				  // limpiar form.
 				  $("#titulo").val('');
 				  $("#texto_corto").val('');
@@ -129,11 +117,11 @@ $(document).ready(function(){
 		   req.open('PUT','https://api.jsonbin.io/v3/b/'+jsonbinId, true);
 		   req.setRequestHeader('Content-Type', 'application/json');
 		   req.setRequestHeader('X-Access-Key', jsonAccessKey);
-		   req.send( $("#eventsNew").val() );
+		   req.send( $("#postsNew").val() );
 		   
 	   }  
 
-  });// fin boton updateEv
+  });// fin boton updatePost
 
 }); // fin ready
 
@@ -189,17 +177,17 @@ $(document).ready(function(){
 			
 		  </select><br>	
 	
-	<input type="text" id="eventsNew" name="eventsNew">
+	<input type="hidden" id="postsNew" name="postsNew">
 	<table>
 		  <tr>
-			  <td><button class="w3-button w3-indigo" id="testEv">1. Comprobar articulo</button></td>
-			  <td><button class="w3-button w3-green" id="updateEv" style="display:none" >2. Añadir articulo</button></td>
+			  <td><button class="w3-button w3-indigo" id="testPost">1. Comprobar articulo</button></td>
+			  <td><button class="w3-button w3-green" id="updatePost" style="display:none" >2. Añadir articulo</button></td>
 		  </tr>
 	</table>
 	 
 	<div class="w3-container"> 
 	  <h3>Todos los  posts:</h3>
-	  <ul id="proximosEv"></ul> 
+	  <ul id="listPosts"></ul> 
 	</div>
 
   
