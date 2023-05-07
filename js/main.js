@@ -1,8 +1,8 @@
 var hoy = new Date();
 	// hacer global la peticion ajax en variable myData
 	// myData es un array de objetos.
-	var url = 'https://ctasantabarbara.github.io/post/posts.json';
-	
+	//var url = 'https://josemamira.github.io/post/posts.json';
+	var url = 'https://api.jsonbin.io/v3/b/645577959d312622a35837a2?meta=false'; // posts.json in json.io
 
     var myData = getSomething();
 
@@ -15,16 +15,17 @@ var hoy = new Date();
             dataType: "json",
             success: function(data){
                 result = data.posts;
+                //console.log(result);
             }
         });
-        return result;
+        return result;        
     }
     
     // Decomentar para test
-    //console.log(myData);
+    console.log(myData);
     
     // load links.json
-	var url2 = 'https://ctasantabarbara.github.io/post/links.json';
+	var url2 = 'https://josemamira.github.io/post/links.json';
     var myLinks = getSomething2();
 
     function getSomething2(){
@@ -42,9 +43,8 @@ var hoy = new Date();
     }    
     //console.log(myLinks);
     
-    /*
     // load links.json
-    var url3 = 'https://ctasantabarbara.github.io/post/events.json';
+	var url3 = 'https://api.jsonbin.io/v3/b/63dbecb5ebd26539d073eabb?meta=false';
     var myEvents = getSomething3();
 
     function getSomething3(){
@@ -59,8 +59,8 @@ var hoy = new Date();
             }
         });
         return result3;
-    }        
-    */
+    }    
+    //console.log(myEvents);    
     
 
 // vaciamos la lista de post
@@ -75,19 +75,25 @@ var laURL = window.location.href;
 var patron = /id=/i;
 var res = laURL.match(patron);
 if (res == "id=") {
-	var id_art = window.location.href.split( '?id=' )[1];	
+	var id_art = window.location.href.split( '?id=' )[1];
+	//alert('con id');
 	loadPost(id_art);
 	lastPost();
 	
-} else {	
+} else {
+	//alert('sin id');
 	lastPost();
 	
 }	
 makePagination();
 
+
+
+
 function makePagination() {
 	    //var divisor = 5;
         //console.log('inicio paginador');
+		//console.log(myData);
 		const numPost = myData.length;
 		// cambiar divisor en función del nº posts
 		if (numPost <= 50) { var divisor = 5; } 
@@ -95,18 +101,23 @@ function makePagination() {
 		else if (numPost > 100 && numPost <=200) { var divisor = 20; } 
 		else if (numPost > 200 && numPost <=500) { var divisor = 50; } 
 		else if (numPost > 500 && numPost <=1000) { var divisor = 100; }
-		else { var divisor = 100; }
+		else { var divisor = 100; }		
+		//console.log("numPosts: "+ numPost);
 		
 		const numBot =numPost / divisor; // nº botones
+		//console.log('numbot: '+ numBot);
 		const resto = numPost % divisor; //console.log('resto es ' + resto);
+		//console.log('resto: '+ resto);		
 		var bFin='';
 		var paginador='';
 		var paginas = '';
 		var filtrado =[];
 		
 		if (numPost <= divisor) {
+			//console.log('hay menos o igual a divisor (5)');
 			
-			for (var i = 1; i <= numPost; i++) {		
+			for (var i = 1; i <= numPost; i++) {				
+				//paginas += '<a  href="index.html?id='+i+'">'+i+'</a>';	
 				paginas += '<button class="w3-button w3-light-grey w3-border w3-hover-red" onclick="onePost('+i+'); jump(\'marcador\')">'+i+'</button>';	
 										
 			}
@@ -115,10 +126,14 @@ function makePagination() {
 			
 		}
 		else {
+			//console.log('hay más de divisor(5). Paginar');
 			var bFin=''; 
 			if (resto == 0) {
+				//console.log('justo');
 				bFin=''; 
+				//bFin = '<button class="w3-button w3-light-grey w3-border w3-hover-red" onClick="listadoBoton('+numIni+','+numFin+')" >'+numIni+'-'+numFin+'</button>'; 
 			} else {
+				//console.log('sobran:  '+ resto);
 				numIni =  Math.floor(numBot)*divisor;
 				numFin = numIni + resto;
 				const filtrado = myData.filter(post => post.id >= numIni ).filter(post => post.id <= numFin );
@@ -139,6 +154,7 @@ function makePagination() {
 			paginador = '<div class="pagination">'+paginas+bFin+'</div>';	
 		}
 		
+		//console.log(paginador);
 		$('#paginador').append(paginador);
 		
 
@@ -150,6 +166,9 @@ function makePagination() {
 
 // Vacia y rellena popularPosts
 function listadoBoton(inicio,fin) {
+	//console.log(' funcion listadoBoton ');
+	//alert("The pagina begin with " + inicio + ", and end with "+ fin);
+	//console.log( myData );
 	var filtrado=[];
 	$( "#popularPosts" ).empty();
 
@@ -162,12 +181,14 @@ function listadoBoton(inicio,fin) {
 	filtrado.forEach(myFunction);
 
 	function myFunction(obj, index, array) {
+	  //txt += obj.titulo + '<br>';
 	  txt += '<li class="w3-padding-16" onclick="onePost('+obj.id+'); jump(\'marcador\')">'+
 				  '<img src="img/theme/min/'+obj.tema+'.jpg" alt="Image" class="w3-left w3-margin-right" style="width:50px">'+
 				  '<span class="w3-badge w3-green">'+obj.id+'</span>&nbsp;&nbsp;<span class="w3-large">'+obj.titulo+'</span><br>'+
 				  '<span>  Tema: '+themeArr[obj.tema]+ '  Fecha: '+obj.fecha_publicacion+'</span>'+
 			  '</li>';
 	}
+	//console.log(txt+'</ul></div><hr>');
 	$('#popularPosts').append(txt);
 	document.getElementById('popularPosts').style.display='block';
 	
@@ -176,11 +197,19 @@ function listadoBoton(inicio,fin) {
 	
 	function loadPost(id) {	
 		//id = 1;	
-		var url = 'https://ctasantabarbara.github.io/post/posts.json';
+		var url = 'https://api.jsonbin.io/v3/b/645577959d312622a35837a2?meta=false'; // posts.json in json.io
 		$( "#divUnPost" ).empty();
 		$.getJSON(url, function(data) {
+			//console.log(data);
+			// obtener nº de posts (length)
 			const numPost = Object.keys(data.posts).length;
+			//console.log(numPost);
 			const obj = data.posts[id-1];
+			//const str = JSON.stringify(data);
+			//console.log(obj); 
+			//console.log(obj.titulo); 
+			//console.log(obj.tema);
+						
 			var divBlog = '';
 			divBlog += '<div class="w3-card-4 w3-margin w3-white">'+
 					'<img src="img/theme/'+obj.tema+'.jpg" alt="Theme" style="width:100%">'+
@@ -235,9 +264,15 @@ function listadoBoton(inicio,fin) {
 		let req = new XMLHttpRequest();
 		req.onreadystatechange = () => {
 		  if (req.readyState == XMLHttpRequest.DONE) {
+			//console.log(req.responseText);
 			obj = JSON.parse(req.responseText);			
+			//console.log(obj.record.eventos[0].title);
+			//document.getElementById("demo").innerHTML = obj.record.eventos[0].title;
 			evArr = obj.record.events;
+			//console.log(evArr);
 			for (var key in evArr) {
+				//console.log(evArr[key]);
+				//console.log(evArr[key]['title']);
 				$("#lista").append("<li>"+evArr[key]['title']+"</li>");
 			}
 			
@@ -245,7 +280,10 @@ function listadoBoton(inicio,fin) {
 			const miFiltro = evArr.filter(unEv => {
 				return unEv.start > hoy; //"2023-01-16T16:00:00";
 			});
+			//console.log(miFiltro);
 			for (var key in miFiltro) {
+				//console.log(miFiltro[key]);
+				//console.log(miFiltro[key]['title']);
 				const monthNames = ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"];
 				var miFecha =  new Date(miFiltro[key]['start']);
 				miFecha = miFecha.getDate() + ' ' + monthNames[miFecha.getMonth()] +' de '+ miFecha.getFullYear();
@@ -262,7 +300,21 @@ function listadoBoton(inicio,fin) {
 		};
 		req.open("GET", "https://api.jsonbin.io/v3/b/63dbecb5ebd26539d073eabb ", true);
 		req.setRequestHeader("X-Master-Key", "$2b$10$NbcBbge09sMN8yjVPsaDhujUZHGFMQWJNxA.iwAaFP0sbjw6qu.MC");
-		req.send();	
+		req.send();		
+		
+			/*var txt = '';
+			myLinks.forEach(myFunction);
+
+			function myFunction(obj, index, array) {
+				  txt += '<li class="w3-padding-16">'+
+						'<img src="img/links/'+obj.logo+'" alt="Image" class="w3-left w3-margin-right" style="width:50px">'+
+						'<span class="w3-large">'+obj.nombre+'</span><br>'+
+						'<span><a href="'+obj.web+'" target="_blank">'+obj.web+'</a></span>'+
+					'</li>'; 
+			}
+				
+			$('#nextEvents').append(txt);
+			document.getElementById('nextEvents').style.display='block';*/
 	}
 	loadNextEvents();
 	
@@ -271,7 +323,7 @@ function listadoBoton(inicio,fin) {
 		const numPost = myData.length;
 		const num5Post = numPost - 5;
 		const fivePosts = myData.filter(post => post.id > num5Post);
-		//console.log(fivePosts);
+		console.log(fivePosts);
 		for (var post of fivePosts) {
 			$("#last5Posts").append('<li class="w3-padding-16" onclick="onePost('+post.id+'); jump(\'marcador\')"><img src="img/post.png" alt="Image" class="w3-left w3-margin-right" style="width:50px">'+
 			'<span class="w3-large">'+post.titulo+'</span><br> <span class="w3-tag w3-blue">'+post.fecha_articulo+'</span>       <span>'+authorArr[post.autor]+'</span> </li>');
@@ -312,6 +364,7 @@ function listadoBoton(inicio,fin) {
 	}
 	
 	function onePost(id) {
+		    //console.log('onePost: ' + id);
 			$('#divBlogUltimo').empty();
 			const numPost = myData.length;
 			const obj = myData[id-1];					
@@ -344,7 +397,9 @@ function listadoBoton(inicio,fin) {
 	function getTags() {
 		var tags=[];
 		myData.forEach(function (arrayItem) {			
+			//var x = arrayItem.tags;
 			arraySplit = arrayItem.tags.split(',');
+			//console.log(arraySplit);
 
 			arraySplit.forEach(function(elemento, indice, array) {
 				tags.push(elemento)
@@ -354,12 +409,15 @@ function listadoBoton(inicio,fin) {
 
 		// Elimina duplicados
 		var uniqueTags = Array.from(new Set(tags))
+		//console.log(uniqueTags);
 		
 		var contenido='';
 		uniqueTags.forEach(function(element) {  
+			//console.log(element);
 			var colores = ["red","pink","purple","deep-purple","indigo","blue","light-blue","cyan","aqua","teal","green","light-green","lime","sand","khaki","yellow","amber","orange","deep-orange","blue-gray","brown","light-gray","gray","dark-gray","pale-red","pale-yellow","pale-green","pale-blue"];
 			var colorRand = colores[~~(Math.random() * colores.length)];
 			contenido += '<button onClick="loadPostsByTag(\''+element+'\'); jump(\'popularPosts\')" class="w3-button w3-small  w3-'+colorRand+'">'+element+'</button> ';
+		//<span class="w3-tag w3-light-grey w3-small w3-margin-bottom">
 		});
 		$("#tagsList").append(contenido);
 		
@@ -379,6 +437,8 @@ function listadoBoton(inicio,fin) {
 		for(var i=0; i< myData.length; i++) {
 			var index = myData[i].tags.indexOf(tagName);
 			if(index >= 0) {
+				//console.log("la palabra existe dentro de la cadena y se encuentra en la posición " + index);
+				//console.log("la palabra está en el post con indice " + i);
 				txt += '<li class="w3-padding-16" onclick="onePost('+myData[i].id+'); jump(\'marcador\')">'+
 					  '<img src="img/theme/min/'+myData[i].tema+'.jpg" alt="Image" class="w3-left w3-margin-right" style="width:50px">'+
 					  '<span class="w3-badge w3-green">'+myData[i].id+'</span>&nbsp;&nbsp;<span class="w3-large">'+myData[i].titulo+'</span><br>'+
@@ -388,6 +448,7 @@ function listadoBoton(inicio,fin) {
 		}
 		$('#popularPosts').append(txt);
 		document.getElementById('popularPosts').style.display='block';
+		//jump('marcador');
 	}
 	
 	// función para navegar (anchor) a un div como si fuera un marcador
@@ -412,6 +473,7 @@ $(document).ready(function(){
         editable: true,
         eventLimit: true, // allow "more" link when too many events 
         events: { 
+			  //url: 'https://api.jsonbin.io/v3/b/63dbb059c0e7653a056ce46e',
 			  url: 'https://api.jsonbin.io/v3/b/63dbecb5ebd26539d073eabb',
 			  type: 'GET',
 			  dataType: 'json',
@@ -420,6 +482,8 @@ $(document).ready(function(){
 			  },
 			  success: function(json) {				
 				events = json.record.events;
+				//console.log(events);
+				//callback(events);
 				return events;
 
 			  },
